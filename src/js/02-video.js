@@ -12,23 +12,28 @@ function onTimeUpdate({ seconds }) {
   localStorage.setItem(PLAYBACK_TIME, JSON.stringify({ seconds }));
 }
 
-const stopVideoTimeValue = JSON.parse(localStorage.getItem(PLAYBACK_TIME));
+try {
+  const stopVideoTimeValue = JSON.parse(localStorage.getItem(PLAYBACK_TIME));
 
-if (stopVideoTimeValue) {
-  player
-    .setCurrentTime(stopVideoTimeValue.seconds)
-    .then(function (seconds) {
-      // seconds = the actual time that the player seeked to
-    })
-    .catch(function (error) {
-      switch (error.name) {
-        case 'RangeError':
-          // the time was less than 0 or greater than the video’s duration
-          break;
+  if (stopVideoTimeValue) {
+    player
+      .setCurrentTime(stopVideoTimeValue.seconds)
+      .then(function (seconds) {
+        // seconds = the actual time that the player seeked to
+      })
+      .catch(function (error) {
+        switch (error.name) {
+          case 'RangeError':
+            // the time was less than 0 or greater than the video’s duration
+            break;
 
-        default:
-          // some other error occurred
-          break;
-      }
-    });
+          default:
+            // some other error occurred
+            break;
+        }
+      });
+  }
+} catch (error) {
+  console.log(error.name);
+  console.log(error.message);
 }

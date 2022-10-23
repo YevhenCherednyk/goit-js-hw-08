@@ -36,9 +36,14 @@ function onFormInput(evt) {
 
 function populateInputForm() {
   const savedFormData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  if (savedFormData) {
-    formData = savedFormData;
-    refs.emailRef.value = formData.email || '';
-    refs.textareaRef.value = formData.message || '';
+  try {
+    if (savedFormData) {
+      formData = savedFormData;
+      refs.emailRef.value = formData.email || '';
+      refs.textareaRef.value = formData.message || '';
+    }
+  } catch (error) {
+    console.log(error.name);
+    console.log(error.message);
   }
 }
